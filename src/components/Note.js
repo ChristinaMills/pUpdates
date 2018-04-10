@@ -26,8 +26,13 @@ export default class Note extends Component {
     this.setState({ [target.name] : target.value });
   };
 
+  handleSubmit = (index, note) => {
+    this.props.handleUpdate(index, note);
+    this.toggleUpdate();
+  }
+
   render(){
-    const { handleRemove, handleUpdate, index } = this.props;
+    const { handleRemove, index } = this.props;
     const { editing, note } = this.state;
     return (
 
@@ -37,7 +42,8 @@ export default class Note extends Component {
           : note} 
         <button onClick={()=> handleRemove(index)}>X</button>
         <button onClick={this.toggleUpdate}>Update</button>
-        <button onClick={()=> handleUpdate(index, note)}>Submit</button>
+        { editing && 
+        <button onClick={()=> this.handleSubmit(index, note)}>Submit</button> }
       </li>
     );
   }
