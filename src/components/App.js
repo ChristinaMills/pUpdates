@@ -34,6 +34,13 @@ export default class App extends Component {
     });
   };
 
+  handleUpdate = (index, update) => {
+    const newNotes = [...this.state.notes];
+    newNotes[index] = update;
+    this.setState({
+      notes: newNotes
+    });
+  };
 
 
   render() {
@@ -43,7 +50,7 @@ export default class App extends Component {
     return (
       <div className="App">
         <h1>Posts</h1>
-        <Notes notes={notes} handleRemove={this.handleRemove} caretaker={caretaker}/>
+        <Notes notes={notes} handleRemove={this.handleRemove} handleUpdate={this.handleUpdate} caretaker={caretaker}/>
         <form onSubmit={this.handleSubmit}>
           <select name="caretaker" value={caretaker} onChange={this.handleChange}>
             <option name="user1" value="user1">User 1</option>
