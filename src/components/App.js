@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Notes from './Notes';
+import  Notes  from './Notes';
 
 export default class App extends Component {
 
@@ -34,8 +34,11 @@ export default class App extends Component {
     });
   };
 
+
+
   render() {
     const { caretaker, notes, update } = this.state;
+
     console.log(caretaker, 'from app');
     return (
       <div className="App">
