@@ -25,9 +25,8 @@ export default class App extends Component {
     });
 
     db.collection('caretakers').add({
-      caretaker: 'Beth',
-      notes: ['took for a walk', 'he bit lots of people']
-
+      caretaker: this.state.caretaker,
+      notes: this.state.notes
     })
       .then((function(docRef) {
         console.log('Document written with ID: ', docRef.id);
