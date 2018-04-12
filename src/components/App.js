@@ -1,5 +1,7 @@
-import React, { Component } from 'react';
+// import firestore from 'firestore';
 import  Notes  from './Notes';
+import React, { Component } from 'react';
+import { db } from '../services/firebase';
 
 export default class App extends Component {
 
@@ -21,6 +23,18 @@ export default class App extends Component {
         this.state.update],
       update: ''
     });
+
+    db.collection('caretakers').add({
+      caretaker: 'Beth',
+      notes: ['took for a walk', 'he bit lots of people']
+
+    })
+      .then((function(docRef) {
+        console.log('Document written with ID: ', docRef.id);
+      }))
+      .catch(function(error) {
+        console.error('Error adding document: ', error);
+      });
   };
 
   handleChange = ({ target }) => {

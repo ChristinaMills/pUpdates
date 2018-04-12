@@ -29,7 +29,7 @@ export default class Note extends Component {
   handleSubmit = (index, note) => {
     this.props.handleUpdate(index, note);
     this.toggleUpdate();
-  }
+  };
 
   render(){
     const { handleRemove, index } = this.props;
