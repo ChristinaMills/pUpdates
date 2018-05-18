@@ -11,7 +11,7 @@ export default class App extends Component {
     this.state = {
       notes: ['he peed', 'all good', 'bit the neighbor kid'],
       update: '',
-      caretaker: 'user2'
+      user: 'Leo'
     };
 
   }
@@ -24,8 +24,8 @@ export default class App extends Component {
       update: ''
     });
 
-    db.collection('caretakers').add({
-      caretaker: this.state.caretaker,
+    db.collection('users').add({
+      user: this.state.user,
       notes: this.state.notes
     })
       .then((function(docRef) {
@@ -57,15 +57,15 @@ export default class App extends Component {
 
 
   render() {
-    const { caretaker, notes, update } = this.state;
+    const { user, notes, update } = this.state;
 
-    console.log(caretaker, 'from app');
+    console.log(user, 'user from app');
     return (
       <div className="App">
         <h1>Posts</h1>
-        <Notes notes={notes} handleRemove={this.handleRemove} handleUpdate={this.handleUpdate} caretaker={caretaker}/>
+        <Notes notes={notes} handleRemove={this.handleRemove} handleUpdate={this.handleUpdate} user={user}/>
         <form onSubmit={this.handleSubmit}>
-          <select name="caretaker" value={caretaker} onChange={this.handleChange}>
+          <select name="user" value={user} onChange={this.handleChange}>
             <option name="user1" value="user1">User 1</option>
             <option name="user2" value="user2">User 2</option>
             <option name="user3" value="user3">User 3</option>

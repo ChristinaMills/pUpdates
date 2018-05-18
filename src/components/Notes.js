@@ -6,8 +6,7 @@ export default class Notes extends Component {
   
   render(){
     const { notes, handleRemove, handleUpdate, caretaker } = this.props;
-    console.log(caretaker);
-    console.log(notes);
+
 
     return (
       <Fragment>
