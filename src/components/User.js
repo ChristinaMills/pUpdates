@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { db } from '../services/firebase';
 
 export default class User extends Component {
 
@@ -7,12 +8,36 @@ export default class User extends Component {
 
     this.state = {
       name: 'Bob',
-      groupId: 2,
+      groupID: 2,
       photo: null,
       posts: ['test post 1', 'test post 2']
 
     };
   }
+
+  handleChange = ({ target }) => {
+    this.setState({ [target.name] : target.value });
+  };
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    this.setState({
+      name: this.state.name,
+      groupID: this.state.groupID
+    });
+
+    db.collection('users').add({
+      name: this.state.name,
+      groupID: this.state.groupID
+    })
+      .then((function(docRef) {
+        console.log('Document written with ID: ', docRef.id);
+      }))
+      .catch(function(error) {
+        console.error('Error adding document: ', error);
+      });
+  };
+
 
   render() {
     const { name } = this.state;
@@ -24,10 +49,19 @@ export default class User extends Component {
     return (
       <div>
         <figure className="user_info">
-          <h1>{name}</h1>
-          <h2>{groupId}</h2>
+          <h3>Name: {name}</h3>
+          <h3>Group ID: {groupId}</h3>
+          <p>List of posts: {posts}</p>
         </figure>
-        <Posts/>
+        <form onSubmit={this.handleSubmit}>
+          <h3>Sign Up</h3>
+          <h2>Enter Name: </h2>
+          <input name="name" onChange={this.handleChange}/>
+
+          <h2>Enter Group ID: </h2>
+          <input name="group-id" onChange={this.handleChange}/>
+          <input type="submit" value="Submit" />
+        </form>
       </div>
 
     );

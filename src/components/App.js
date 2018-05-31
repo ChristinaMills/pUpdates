@@ -1,7 +1,11 @@
 // import firestore from 'firestore';
 import  Notes  from './Notes';
 import React, { Component } from 'react';
-import { db } from '../services/firebase';
+import fire, { db } from '../services/firebase';
+import  User  from './User';
+import Auth from './Auth';
+import Login from './Login';
+import Home from './Home';
 
 export default class App extends Component {
 
@@ -9,11 +13,25 @@ export default class App extends Component {
     super();
     
     this.state = {
-      notes: ['he peed', 'all good', 'bit the neighbor kid'],
-      update: '',
-      user: 'Leo'
+      user: {},
     };
 
+    this.authListener = this.authListener.bind(this);
+  }
+
+  componentDidMount() {
+    this.authListener();
+  }
+
+  authListener() {
+    fire.auth().onAuthStateChanged((user) => {
+      if(user) {
+        this.setState({ user });
+      }
+      else {
+        this.setState({ user: null });
+      }
+    });
   }
 
   handleSubmit = (event) => {
@@ -59,20 +77,24 @@ export default class App extends Component {
   render() {
     const { user, notes, update } = this.state;
 
-    console.log(user, 'user from app');
+    console.log('^_^_^_^_^ USER FROM APP', user);
     return (
       <div className="App">
+        { this.state.user ? <Home/> : <Login/> }
+        {/* <h1>USER!!</h1>
+        <User/>
+        <h1>APP.js </h1>
         <h1>Posts</h1>
         <Notes notes={notes} handleRemove={this.handleRemove} handleUpdate={this.handleUpdate} user={user}/>
         <form onSubmit={this.handleSubmit}>
-          <select name="user" value={user} onChange={this.handleChange}>
-            <option name="user1" value="user1">User 1</option>
-            <option name="user2" value="user2">User 2</option>
-            <option name="user3" value="user3">User 3</option>
-          </select>
           <input name="update" value={update} onChange={this.handleChange}/>
         </form>
+        <div>
+          <h1>AUTH PART</h1>
+          <Auth/>
+        </div> */}
       </div>
+      
     );
 
   }
