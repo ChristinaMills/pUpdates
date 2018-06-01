@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import fire from '../services/firebase';
+import fire, { db } from '../services/firebase';
 
 class Login extends Component {
   constructor(props) {
@@ -26,8 +26,38 @@ handleChange = ({ target }) => {
 signUp = (e) => {
   e.preventDefault();
   fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
-    .then((u) => {console.log(u, 'sign up OK'); })
-    .catch((error) => {console.log(error);});
+    .then((u) => { 
+      db.collection('users').add({
+        uid: u.uid,
+        email: u.email, 
+      })
+        .then((function(docRef) {
+          console.log('Document written with ID: ', docRef.id);
+          return docRef.update({ docRefID: docRef.id });
+        }));
+    //add docRef id as property on user obj
+    })
+    .catch((error) => {console.log('Error adding document', error);});
+};
+
+
+handleSubmit = (event) => {
+  event.preventDefault();
+  this.setState({
+    name: this.state.name,
+    groupID: this.state.groupID
+  });
+
+  db.collection('users').add({
+    name: this.state.name,
+    groupID: this.state.groupID
+  })
+    .then((function(docRef) {
+      console.log('Document written with ID: ', docRef.id);
+    }))
+    .catch(function(error) {
+      console.error('Error adding document: ', error);
+    });
 };
 
 render() {

@@ -77,19 +77,18 @@ export default class App extends Component {
   render() {
     const { user, notes, update } = this.state;
 
-    console.log('^_^_^_^_^ USER FROM APP', user);
+   
     return (
       <div className="App">
         { this.state.user ? <Home/> : <Login/> }
-        {/* <h1>USER!!</h1>
-        <User/>
-        <h1>APP.js </h1>
-        <h1>Posts</h1>
+
+        {/* <h1>APP.js </h1>
+        <h2>NOTES COMPONENT BELOW</h2>
         <Notes notes={notes} handleRemove={this.handleRemove} handleUpdate={this.handleUpdate} user={user}/>
         <form onSubmit={this.handleSubmit}>
           <input name="update" value={update} onChange={this.handleChange}/>
-        </form>
-        <div>
+        </form> */}
+        {/* <div>
           <h1>AUTH PART</h1>
           <Auth/>
         </div> */}

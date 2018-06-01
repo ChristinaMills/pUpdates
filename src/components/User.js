@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { db } from '../services/firebase';
+import fire from '../services/firebase';
 
 export default class User extends Component {
 
@@ -15,28 +16,40 @@ export default class User extends Component {
     };
   }
 
+  componentDidMount = () => {
+    fire.auth().onAuthStateChanged(function(user) {
+      if(user) {
+        console.log('_^_^_^_^_User obj of CURRENT USER', user);
+      }
+      else {
+        console.log('NO USER');
+      }
+    });
+  };
+
   handleChange = ({ target }) => {
     this.setState({ [target.name] : target.value });
   };
 
-  handleSubmit = (event) => {
-    event.preventDefault();
-    this.setState({
-      name: this.state.name,
-      groupID: this.state.groupID
-    });
 
-    db.collection('users').add({
-      name: this.state.name,
-      groupID: this.state.groupID
-    })
-      .then((function(docRef) {
-        console.log('Document written with ID: ', docRef.id);
-      }))
-      .catch(function(error) {
-        console.error('Error adding document: ', error);
-      });
-  };
+  // handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   this.setState({
+  //     name: this.state.name,
+  //     groupID: this.state.groupID
+  //   });
+
+  //   db.collection('users').add({
+  //     name: this.state.name,
+  //     groupID: this.state.groupID
+  //   })
+  //     .then((function(docRef) {
+  //       console.log('Document written with ID: ', docRef.id);
+  //     }))
+  //     .catch(function(error) {
+  //       console.error('Error adding document: ', error);
+  //     });
+  // };
 
 
   render() {
@@ -48,7 +61,8 @@ export default class User extends Component {
 
     return (
       <div>
-        <figure className="user_info">
+        <h1>## This is the User Component ## </h1>
+        {/* <figure className="user_info">
           <h3>Name: {name}</h3>
           <h3>Group ID: {groupId}</h3>
           <p>List of posts: {posts}</p>
@@ -61,7 +75,7 @@ export default class User extends Component {
           <h2>Enter Group ID: </h2>
           <input name="group-id" onChange={this.handleChange}/>
           <input type="submit" value="Submit" />
-        </form>
+        </form> */}
       </div>
 
     );
