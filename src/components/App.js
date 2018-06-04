@@ -34,45 +34,44 @@ export default class App extends Component {
     });
   }
 
-  handleSubmit = (event) => {
-    event.preventDefault();
-    this.setState({
-      notes: [...this.state.notes,
-        this.state.update],
-      update: ''
-    });
+  // handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   this.setState({
+  //     notes: [...this.state.notes,
+  //       this.state.update],
+  //     update: ''
+  //   });
 
-    db.collection('users').add({
-      user: this.state.user,
-      notes: this.state.notes
-    })
-      .then((function(docRef) {
-        console.log('Document written with ID: ', docRef.id);
-      }))
-      .catch(function(error) {
-        console.error('Error adding document: ', error);
-      });
-  };
+  //   db.collection('users').add({
+  //     user: this.state.user,
+  //     notes: this.state.notes
+  //   })
+  //     .then((function(docRef) {
+  //       console.log('Document written with ID: ', docRef.id);
+  //     }))
+  //     .catch(function(error) {
+  //       console.error('Error adding document: ', error);
+  //     });
+  // };
 
-  handleChange = ({ target }) => {
-    this.setState({ [target.name] : target.value });
-  };
+  // handleChange = ({ target }) => {
+  //   this.setState({ [target.name] : target.value });
+  // };
 
-  handleRemove = (index) => {
-    this.state.notes.splice(index, 1);
-    this.setState({
-      notes: [...this.state.notes]
-    });
-  };
+  // handleRemove = (index) => {
+  //   this.state.notes.splice(index, 1);
+  //   this.setState({
+  //     notes: [...this.state.notes]
+  //   });
+  // };
 
-  handleUpdate = (index, update) => {
-    const newNotes = [...this.state.notes];
-    newNotes[index] = update;
-    this.setState({
-      notes: newNotes
-    });
-  };
-
+  // handleUpdate = (index, update) => {
+  //   const newNotes = [...this.state.notes];
+  //   newNotes[index] = update;
+  //   this.setState({
+  //     notes: newNotes
+  //   });
+  // };
 
 
   render() {

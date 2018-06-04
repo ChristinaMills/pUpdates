@@ -9,11 +9,10 @@ export default class Note extends Component {
 
     this.state = {
       editing: false,
-      note: '',
-      uid: '', 
-      test: ''
+      note: 'this is a note that will be updated by handlechange on user input',
+      uid: '' 
     };
-    this.addNote = this.addNote.bind(this);
+    // this.addNote = this.addNote.bind(this);
     // this.addNoteSetup = this.addNoteSetup.bind(this);
   }
 
@@ -32,72 +31,18 @@ export default class Note extends Component {
     });
   }
   
-
-
-  async addNote() {
-    let userCollectionRef = db.collection('users');
-    // setTimeout(10000);
-    let docID = await userCollectionRef.where("uid", "==", this.state.uid);
-    console.log('fml', docID);
-    
-    // return () => userCollectionRef.where("uid", "==", this.state.uid)
-    //   .then((document) => {
-    //     console.log('did you get here?');
-    //     console.log(document, 'salkfjlskajfdkjsa');
-    //     return document.update({ note: 'held;asdf;jsfre is a note dammmmit' }, { merge: true });
-    //   })
-    //   .catch(error => console.log('error: ', error));
-
-    //*******This works- when I hard code the DocumentID */
-    // let userDocRef = db.collection('users').doc('JjjgLy7SbJFyJfa9o9OT');
-    // let addNoteInfo = userDocRef.set({ note: 'here is a note dammit' }, { merge: true });
-
+  // <3 the whole confusion here was trying to access the docRef that was returned from using the add function. Instead I used the set function which allows you to set a custom id for the document, in this case setting it as the uid will let me access it in Note.
+  addNote() {
+    db.collection('users').doc(this.state.uid).set({ addedNoteField: this.state.note }, { merge: true });
+    console.log('********** note added');
   }
 
- 
-
-
-  //get user uid from authUser object//
-  //find user database object with that iud
-  //create reference for thaaat object
-  //do stuff
- 
-
- 
-  // addNote() {
-  //   this.addNoteSetup();
-  //   // let userCollectionRef = this.state.userCollectionRef
-  //   // let userDocID = userCollectionRef.where('uid', '==', this.state.uid)
-  //   //   .then(() => {
-  //   //     let docRef = db.collection('users').doc(userDocID);
-  //   //   });
-  //   // let addNoteInfo = docRef.set({ note: 'here is a note dammittttt' }, { merge: true });
-  //   console.log('**********');
-  // }
-
- 
-  // var uid = this.state.uid;
-  // var userDocRef = db.collection('users').document().getId();
-  // console.log(userDocRef);
-  // return userRef.update({
-  //   newParam: 'YAhooooooo'
-  // })
-  //     .then(function() {
-  //       console.log('Document successfully updated!');
-  //     })
-  //     .catch(function(error) {
-  //     // The document probably doesn't exist.
-  //       console.error('Error updating document: ', error);
-  //     });
-  
-
-  // };
 
 handleSubmit = (event) => {
   // console.log('LOG ---- button was clicked');
   event.preventDefault();
   this.addNote();
-  console.log('handlesubmite ran', this.state);
+  console.log('handlesubmit ran', this.state);
  
 };
 
