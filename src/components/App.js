@@ -74,6 +74,7 @@ export default class App extends Component {
   };
 
 
+
   render() {
     const { user, notes, update } = this.state;
 

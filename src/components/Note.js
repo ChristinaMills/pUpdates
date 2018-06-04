@@ -13,31 +13,75 @@ export default class Note extends Component {
       uid: '', 
       test: ''
     };
+    this.addNote = this.addNote.bind(this);
+    // this.addNoteSetup = this.addNoteSetup.bind(this);
   }
 
   componentDidMount() {
     fire.auth().onAuthStateChanged(user => {
       if(user) {
-        this.setState({ 
-          uid: user.uid,
+        let uid = user;
+        this.setState({
+          uid: uid.uid
         });
-        console.log('_^_^_^_^_UID of CURRENT USER from note comp', user.uid);
-        console.log('_^_^_^_^_UID of CURRENT USER from note comp');
-
+        console.log('just USER', user);
       }
       else {
         console.log('NO USER from note');
       }
     });
   }
+  
 
-  // addNoteToUser = () => {
-  //   var uid = this.state.uid;
-  //   var userDocRef = db.collection('users').document().getId();
-  //   console.log(userDocRef);
-  //   return userRef.update({
-  //     newParam: 'YAhooooooo'
-  //   })
+
+  async addNote() {
+    let userCollectionRef = db.collection('users');
+    // setTimeout(10000);
+    let docID = await userCollectionRef.where("uid", "==", this.state.uid);
+    console.log('fml', docID);
+    
+    // return () => userCollectionRef.where("uid", "==", this.state.uid)
+    //   .then((document) => {
+    //     console.log('did you get here?');
+    //     console.log(document, 'salkfjlskajfdkjsa');
+    //     return document.update({ note: 'held;asdf;jsfre is a note dammmmit' }, { merge: true });
+    //   })
+    //   .catch(error => console.log('error: ', error));
+
+    //*******This works- when I hard code the DocumentID */
+    // let userDocRef = db.collection('users').doc('JjjgLy7SbJFyJfa9o9OT');
+    // let addNoteInfo = userDocRef.set({ note: 'here is a note dammit' }, { merge: true });
+
+  }
+
+ 
+
+
+  //get user uid from authUser object//
+  //find user database object with that iud
+  //create reference for thaaat object
+  //do stuff
+ 
+
+ 
+  // addNote() {
+  //   this.addNoteSetup();
+  //   // let userCollectionRef = this.state.userCollectionRef
+  //   // let userDocID = userCollectionRef.where('uid', '==', this.state.uid)
+  //   //   .then(() => {
+  //   //     let docRef = db.collection('users').doc(userDocID);
+  //   //   });
+  //   // let addNoteInfo = docRef.set({ note: 'here is a note dammittttt' }, { merge: true });
+  //   console.log('**********');
+  // }
+
+ 
+  // var uid = this.state.uid;
+  // var userDocRef = db.collection('users').document().getId();
+  // console.log(userDocRef);
+  // return userRef.update({
+  //   newParam: 'YAhooooooo'
+  // })
   //     .then(function() {
   //       console.log('Document successfully updated!');
   //     })
@@ -49,14 +93,13 @@ export default class Note extends Component {
 
   // };
 
-  handleSubmit = (event) => {
-    // console.log('LOG ---- button was clicked');
-    console.log('state before ---  ', this.state);
-    console.log();
-    event.preventDefault();
-    this.setState({ test: 'test' });
+handleSubmit = (event) => {
+  // console.log('LOG ---- button was clicked');
+  event.preventDefault();
+  this.addNote();
+  console.log('handlesubmite ran', this.state);
  
-  };
+};
 
   // toggleUpdate = () => {
   //   this.setState({
@@ -75,7 +118,7 @@ export default class Note extends Component {
 
   render(){
     const { handleRemove, index } = this.props;
-
+    // console.log('the state bro', this.state);
     return (
       <div><h1>## This is the NOTE component ##</h1>
         {/* <li key={index}> */}

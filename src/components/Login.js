@@ -26,19 +26,21 @@ handleChange = ({ target }) => {
 signUp = (e) => {
   e.preventDefault();
   fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
-    .then((u) => { 
+    .then((u) => {
+      console.log('where the balls the user obj at', u); 
       db.collection('users').add({
         uid: u.uid,
         email: u.email, 
       })
+        //the add function returns a documentReference obj
         .then((function(docRef) {
           console.log('Document written with ID: ', docRef.id);
           return docRef.update({ docRefID: docRef.id });
         }));
-    //add docRef id as property on user obj
     })
     .catch((error) => {console.log('Error adding document', error);});
 };
+
 
 
 handleSubmit = (event) => {
