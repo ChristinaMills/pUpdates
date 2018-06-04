@@ -9,7 +9,7 @@ export default class Note extends Component {
 
     this.state = {
       editing: false,
-      note: 'this is a note that will be updated by handlechange on user input',
+      note: '',
       uid: '' 
     };
     // this.addNote = this.addNote.bind(this);
@@ -32,9 +32,27 @@ export default class Note extends Component {
   }
   
   // <3 the whole confusion here was trying to access the docRef that was returned from using the add function. Instead I used the set function which allows you to set a custom id for the document, in this case setting it as the uid will let me access it in Note.
-  addNote() {
-    db.collection('users').doc(this.state.uid).set({ addedNoteField: this.state.note }, { merge: true });
+  addNote2() {
+    db.collection('users').doc(this.state.uid).set({ 
+      notes: this.state.note
+    }, { merge: true });
+    
     console.log('********** note added');
+  }
+
+  addNote() {
+    db.collection('posts').add({
+      userID: this.state.uid,
+      postContent: this.state.note,
+      time: new Date()
+    })
+      .then(function(docRef) {
+        console.log('Document written with ID: ', docRef.id);
+      })
+      .catch(function(error) {
+        console.error('Error adding document: ', error);
+      });
+
   }
 
 
@@ -42,6 +60,9 @@ handleSubmit = (event) => {
   // console.log('LOG ---- button was clicked');
   event.preventDefault();
   this.addNote();
+  this.setState({
+    note: ''
+  });
   console.log('handlesubmit ran', this.state);
  
 };
@@ -62,7 +83,7 @@ handleSubmit = (event) => {
   // };
 
   render(){
-    const { handleRemove, index } = this.props;
+    // const { handleRemove, index } = this.props;
     // console.log('the state bro', this.state);
     return (
       <div><h1>## This is the NOTE component ##</h1>
