@@ -28,6 +28,7 @@ signUp = (e) => {
   fire.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
     .then((user) => {
       console.log('where the balls the user obj at', user); 
+      //we are naming the document id by iud explicity here
       db.collection('users').doc(user.uid).set({
         uid: user.uid,
         email: user.email, 

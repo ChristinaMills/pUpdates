@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import fire from '../services/firebase';
 import User from './User';
 import Note from './Note';
+import Notes from './Notes';
+
 
 class Home extends Component {
   constructor(props) {
@@ -19,6 +21,7 @@ class Home extends Component {
         <h1>You are home</h1>
         <User/>
         <Note/>
+        <Notes/>
         <button onClick={this.logout}>Log Out</button>
       </div>
     );

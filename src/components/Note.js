@@ -23,7 +23,7 @@ export default class Note extends Component {
         this.setState({
           uid: uid.uid
         });
-        console.log('just USER', user);
+        console.log('just USER uid', user.uid);
       }
       else {
         console.log('NO USER from note');
@@ -49,6 +49,11 @@ export default class Note extends Component {
       .then(function(docRef) {
         console.log('Document written with ID: ', docRef.id);
       })
+      .then(this.setState({
+        userID: this.state.uid,
+        postContent: this.state.note,
+        time: new Date()
+      }))
       .catch(function(error) {
         console.error('Error adding document: ', error);
       });
@@ -85,16 +90,21 @@ handleSubmit = (event) => {
   render(){
     // const { handleRemove, index } = this.props;
     // console.log('the state bro', this.state);
+
     return (
       <div><h1>## This is the NOTE component ##</h1>
         {/* <li key={index}> */}
         {/* {editing 
           ? <input name="note" value={note} onChange={this.handleChange}/> 
           : note}  */}
+        <h4>{this.state.postContent}</h4>
+        <h4>{this.state.userID}</h4>
+
         <form onSubmit={(event) => this.handleSubmit(event)}>
           <input name="note" value={this.state.note} onChange={this.handleChange}/>
           <button type="submit">Submit</button>
         </form>
+
         {/* <button onClick={()=> handleRemove(index)}>X</button>
         <button onClick={this.toggleUpdate}>Update</button> */}
 

@@ -19,7 +19,7 @@ export default class User extends Component {
   componentDidMount = () => {
     fire.auth().onAuthStateChanged(function(user) {
       if(user) {
-        console.log('_^_^_^_^_User obj of CURRENT USER', user);
+        // console.log('_^_^_^_^_User obj of CURRENT USER', user);
       }
       else {
         console.log('NO USER');
@@ -32,32 +32,11 @@ export default class User extends Component {
   };
 
 
-  // handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   this.setState({
-  //     name: this.state.name,
-  //     groupID: this.state.groupID
-  //   });
-
-  //   db.collection('users').add({
-  //     name: this.state.name,
-  //     groupID: this.state.groupID
-  //   })
-  //     .then((function(docRef) {
-  //       console.log('Document written with ID: ', docRef.id);
-  //     }))
-  //     .catch(function(error) {
-  //       console.error('Error adding document: ', error);
-  //     });
-  // };
-
-
   render() {
     const { name } = this.state;
 
     if(!name) return null;
 
-    const { groupId, posts } = this.state;
 
     return (
       <div>
