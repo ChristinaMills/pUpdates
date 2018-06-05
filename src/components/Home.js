@@ -13,7 +13,7 @@ class Home extends Component {
 
   logout = () => {
     fire.auth().signOut();
-  }
+  };
 
   render() {
     return (

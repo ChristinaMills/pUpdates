@@ -97,8 +97,6 @@ handleSubmit = (event) => {
         {/* {editing 
           ? <input name="note" value={note} onChange={this.handleChange}/> 
           : note}  */}
-        <h4>{this.state.postContent}</h4>
-        <h4>{this.state.userID}</h4>
 
         <form onSubmit={(event) => this.handleSubmit(event)}>
           <input name="note" value={this.state.note} onChange={this.handleChange}/>

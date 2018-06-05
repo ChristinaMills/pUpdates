@@ -41,6 +41,7 @@ export default class User extends Component {
     return (
       <div>
         <h1>## This is the User Component ## </h1>
+        <p>Connect User Profile information</p>
         {/* <figure className="user_info">
           <h3>Name: {name}</h3>
           <h3>Group ID: {groupId}</h3>

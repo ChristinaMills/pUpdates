@@ -34,12 +34,21 @@ export default class Notes extends Component {
         this.setState({
           uid: user.uid
         });
+        
+        this.loadUserPostsFromFB();
       }
       else {
         console.log('NO USER');
       }
     }.bind(this));
+    console.log(this.state, '     00000000000');
+
   }
+
+  // componentDidMount(){
+  //   this.loadUserPostsFromFB();
+  //   console.log(this.state, '     00000000000');
+  // }
 
   loadAllPostsFromFB = () => {
     db.collection('posts').get().then(function(querySnapshot) {
@@ -78,10 +87,10 @@ export default class Notes extends Component {
       });
     };
  
-  // console.log('do you get here??  ')
+
   
     render(){
-      const { notes, handleRemove, handleUpdate } = this.props;
+      // const { notes, handleRemove, handleUpdate } = this.props;
 
 
       return (
