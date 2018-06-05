@@ -7,7 +7,24 @@ export default class Notes extends Component {
   constructor(props){
     super(props);
     this.state = {
-      uid: ''
+      uid: '',
+      posts: [ 
+        { postText: 'string of post text',
+          time: 'time string',
+          name: 'User name',
+          petName: 'name of pet'
+        },
+        { postText: '2string of post text',
+          time: '2time string',
+          name: '2User name',
+          petName: '2name of pet'
+        },
+        { postText: '3string of post text',
+          time: '3time string',
+          name: '3User name',
+          petName: '3name of pet'
+        }
+      ]
     };
   }
 
@@ -38,10 +55,25 @@ export default class Notes extends Component {
       let query = collectionRef.where('userID', '==', this.state.uid);
       console.log('did you get here????   ');
 
-      query.get().then(function(querySnapshot) {
-        querySnapshot.forEach(function(doc) {
+      query.get().then((querySnapshot) => {
+        querySnapshot.forEach((documentSnapshot) => {
           // console.log(doc.id, '=>', doc.data());
-          console.log('****', doc.data.postContent);
+          let data = documentSnapshot.data();
+          console.log(data);
+
+          this.setState({
+            posts: [
+              ...this.state.posts,
+              {
+                postContent: data.postContent,
+                time: data.time,
+                name: 'hardcoded name',
+              }
+            ]
+            
+          });
+          console.log('*********** This is the STATE', this.state);
+          // console.log('****', doc.data.postContent);
         });
         // console.log(querySnapshot.docs);
       });
