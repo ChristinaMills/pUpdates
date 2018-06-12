@@ -21,8 +21,9 @@ class Home extends Component {
         this.setState({
           uid: user.uid
         });
-
         console.log('user uid after SS in if', this.state.uid);
+
+        this.loadUserPostsFromFB();
 
       }
       else {
@@ -54,8 +55,8 @@ class Home extends Component {
       .then(querySnapshot => {
         querySnapshot.forEach(doc => {
           let data = doc.data();
-          console.log('######', doc.id);
-          console.log('this is the data     ', data.postText);
+          // console.log('######', doc.id);
+          // console.log('this is the data.postText     ', data.postText);
 
           this.setState({
             posts: [
@@ -89,8 +90,8 @@ class Home extends Component {
   };
 
   render() {
-    const theState = this.state;
-    console.log('FULL STATE***********', theState);
+    const theFullState = this.state;
+    // console.log('theFullState', theFullState);
 
     return (
       <div className="col-md-6">
@@ -98,7 +99,7 @@ class Home extends Component {
         {/* <User/> */}
         {/* note form maybe? */}
         {/* <Note updatePostsFromNoteToHome = {this.updatePostsFromNoteToHome}/> */}
-        {/* <Notes postsSentFromParentHome = {this.state.posts}/> */}
+        <Notes postsSentFromParentHome = {this.state}/>
         <button onClick={() => { this.loadUserPostsFromFB(); }}>LOAD USER posts</button>
         <button onClick={this.logout}>Log Out</button>
       </div>
