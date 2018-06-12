@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 // import User from './User';
 // import Note from './Note';
-import Notes from './Notes';
+import Notes from './Posts';
 import fire, { db } from '../services/firebase';
 
 class Home extends Component {

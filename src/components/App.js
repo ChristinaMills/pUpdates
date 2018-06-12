@@ -1,5 +1,5 @@
 // import firestore from 'firestore';
-import  Notes  from './Notes';
+import  Notes  from './Posts';
 import React, { Component } from 'react';
 import fire, { db } from '../services/firebase';
 import  User  from './User';
@@ -75,7 +75,7 @@ export default class App extends Component {
 
 
   render() {
-    const { user, notes, update } = this.state;
+    const { user, update } = this.state;
 
    
     return (

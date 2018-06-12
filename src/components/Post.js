@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { db } from '../services/firebase';
+import fire from '../services/firebase';
 
 export default class Post extends Component {
 
@@ -6,46 +8,84 @@ export default class Post extends Component {
     super(props);
 
     this.state = {
-      editing: false,
-      post: ''
+      uid: '',
+      postText: ''
     };
+    // this.addNoteToFB = this.addNoteToFB.bind(this);
+    // this.addNoteSetup = this.addNoteSetup.bind(this);
   }
 
   componentDidMount() {
-    console.log('post from post', this.props.post);
-    this.setState({
-      post: this.props.post
+    fire.auth().onAuthStateChanged(user => {
+      if(user) {
+        let uid = user;
+        this.setState({
+          uid: uid.uid
+        });
+        console.log('USER uid', user.uid);
+      }
+      else {
+        console.log('NO USER from note');
+      }
     });
   }
-  toggleUpdate = () => {
-    this.setState({
-      editing: !this.state.editing
-    });
-  };
+  //in Note= in Review component in parkPlace, review loads current review on load
+  
+
+  addNoteToFB() {
+    db.collection('posts').add({
+      uid: this.state.uid,
+      postText: this.state.postText,
+      time: new Date()
+    })
+      .then(function(docRef) {
+        console.log('Document written with ID: ', docRef.id, docRef);
+      })
+      .then(this.setState({
+        userID: this.state.uid,
+        postText: this.state.postText,
+        time: new Date()
+      }),
+      console.log('note added', this.state)
+      )
+      .catch(function(error) {
+        console.error('Error adding document: ', error);
+      });
+
+  }
+
+
+handleSubmit = (event) => {
+  // console.log('LOG ---- button was clicked');
+  event.preventDefault();
+  this.addNoteToFB();
+  // this.props.updatePostsFromNoteToHome(this.state);
+  //   .then(() => {
+  //     this.props.updatePostsFromNoteToHome(this.state.note);
+  //   })
+  //   .catch((error) => { console.log('Error at handleSubmit', error); });
+  // console.log('handlesubmit ran- this is state of note', this.state);
+ 
+};
+
 
   handleChange = ({ target }) => {
     this.setState({ [target.name] : target.value });
   };
 
-  handleSubmit = (index, post) => {
-    this.props.handleUpdate(index, post);
-    this.toggleUpdate();
-  };
 
   render(){
-    const { handleRemove, index } = this.props;
-    const { editing, post } = this.state;
-    return (
 
-      <li key={index}>
-        {editing 
-          ? <input name="post" value={post} onChange={this.handleChange}/> 
-          : post} 
-        <button onClick={()=> handleRemove(index)}>X</button>
-        <button onClick={this.toggleUpdate}>Update</button>
-        { editing && 
-        <button onClick={()=> this.handleSubmit(index, post)}>Submit</button> }
-      </li>
+
+    return (
+      <div><h1>## This is the NOTE component ##</h1>
+
+        <form onSubmit={(event) => this.handleSubmit(event)}>
+          <input name="postText" value={this.state.postText} onChange={this.handleChange}/>
+          <button type="submit">Submit</button>
+        </form>
+
+      </div>
     );
   }
 }

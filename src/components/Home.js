@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 // import User from './User';
 // import Note from './Note';
-import Notes from './Notes';
+import PostForm from './PostForm';
+import Posts from './Posts';
 import fire, { db } from '../services/firebase';
 
 class Home extends Component {
@@ -38,7 +39,7 @@ class Home extends Component {
   
   loadAllPostsFromFB = () => {
     db.collection('posts').get().then(function(querySnapshot) {
-      console.log('WORKING QUERY SNAP', querySnapshot);
+      // console.log('WORKING QUERY SNAP', querySnapshot);
       querySnapshot.forEach(function(doc) {
         // console.log('**************', querySnapshot);
         // doc.data() is never undefined for query doc snapshots
@@ -77,6 +78,19 @@ class Home extends Component {
 
   // TODO: write function to update the state of home, send that as a prop through Notes, and then Note. This should "pass up the data"
 
+  tellHome = (postData) => {
+    this.setState({
+      posts: [
+        ...this.state.posts,
+        {
+          postText: postData.postText,
+          time: postData.time,
+          uid: postData.uid
+        }
+      ]
+    });
+
+  }
 
   // updatePostsFromNoteToHome  = (addedNote) => {
   //   this.setState({
@@ -98,8 +112,10 @@ class Home extends Component {
         <h1>You are home</h1>
         {/* <User/> */}
         {/* note form maybe? */}
-        {/* <Note updatePostsFromNoteToHome = {this.updatePostsFromNoteToHome}/> */}
-        <Notes postsSentFromParentHome = {this.state}/>
+        {/* <Post updatePostsFromNoteToHome = {this.updatePostsFromNoteToHome}/> */}
+        <Posts postsSentFromParentHome = {this.state}/>
+        <PostForm tellHomeNewPost = {this.tellHome}/>
+        
         <button onClick={() => { this.loadUserPostsFromFB(); }}>LOAD USER posts</button>
         <button onClick={this.logout}>Log Out</button>
       </div>

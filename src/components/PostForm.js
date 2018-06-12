@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { db } from '../services/firebase';
 import fire from '../services/firebase';
 
-export default class Note extends Component {
+export default class PostForm extends Component {
 
   constructor(props) {
     super(props);
@@ -11,10 +11,12 @@ export default class Note extends Component {
       uid: '',
       postText: ''
     };
-    // this.addNoteToFB = this.addNoteToFB.bind(this);
-    // this.addNoteSetup = this.addNoteSetup.bind(this);
+    // this.addPostToFB = this.addPostToFB.bind(this);
+    // this.addPostSetup = this.addPostSetup.bind(this);
   }
 
+
+  // TODO: should get sent this instead of fetching
   componentDidMount() {
     fire.auth().onAuthStateChanged(user => {
       if(user) {
@@ -32,7 +34,7 @@ export default class Note extends Component {
   //in Note= in Review component in parkPlace, review loads current review on load
   
 
-  addNoteToFB() {
+  addPostToFB() {
     db.collection('posts').add({
       uid: this.state.uid,
       postText: this.state.postText,
@@ -42,12 +44,10 @@ export default class Note extends Component {
         console.log('Document written with ID: ', docRef.id, docRef);
       })
       .then(this.setState({
-        userID: this.state.uid,
-        postText: this.state.postText,
-        time: new Date()
-      }),
-      console.log('note added', this.state)
-      )
+        //uid also?
+        postText: '',
+        time: ''
+      }))
       .catch(function(error) {
         console.error('Error adding document: ', error);
       });
@@ -58,7 +58,7 @@ export default class Note extends Component {
 handleSubmit = (event) => {
   // console.log('LOG ---- button was clicked');
   event.preventDefault();
-  this.addNoteToFB();
+  this.addPostToFB();
   // this.props.updatePostsFromNoteToHome(this.state);
   //   .then(() => {
   //     this.props.updatePostsFromNoteToHome(this.state.note);
@@ -74,11 +74,12 @@ handleSubmit = (event) => {
   };
 
 
+  
   render(){
 
 
     return (
-      <div><h1>## This is the NOTE component ##</h1>
+      <div><h1>## This is the Post FORM component ##</h1>
 
         <form onSubmit={(event) => this.handleSubmit(event)}>
           <input name="postText" value={this.state.postText} onChange={this.handleChange}/>
