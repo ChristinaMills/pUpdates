@@ -55,19 +55,19 @@ class Home extends Component {
         querySnapshot.forEach(doc => {
           let data = doc.data();
           console.log('######', doc.id);
-          console.log('this is the data     ', data);
+          console.log('this is the data     ', data.postText);
 
-          // this.setState({
-          //   posts: [
-          //     ...this.state.posts,
-          //     {
-          //       postContent: data.postContent,
-          //       time: data.time
-          //     }
-          //   ]
+          this.setState({
+            posts: [
+              ...this.state.posts,
+              {
+                postText: data.postText,
+                time: data.time,
+                uid: data.uid
+              }
+            ]
           
-          // });
-        // console.log('****', doc.data.postContent);
+          });
         });
       // console.log(querySnapshot.docs);
       });
@@ -89,6 +89,9 @@ class Home extends Component {
   };
 
   render() {
+    const theState = this.state;
+    console.log('FULL STATE***********', theState);
+
     return (
       <div className="col-md-6">
         <h1>You are home</h1>
