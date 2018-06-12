@@ -18,15 +18,15 @@ export default class Notes extends Component {
         this.setState({
           uid: user.uid
         });
-        
-        this.loadUserPostsFromFB();
+        console.log('User logged in', this.state.uid);
+        // this.loadUserPostsFromFB();
         // this.loadAllPostsFromFB();
       }
       else {
         console.log('NO USER');
       }
     }.bind(this));
-    console.log(this.state, '     00000000000');
+    console.log(this.state, 'state after component did mount ran');
 
   }
 
@@ -44,61 +44,60 @@ export default class Notes extends Component {
     });
   };
   
-  loadUserPostsFromFB = async() => {
-    let postsRef = db.collection('posts');
-    let userRef = await postsRef.where('userID', '==', this.state.uid).get();
+  // loadUserPostsFromFB = async() => {
+  //   let postsRef = db.collection('posts');
+  //   let userRef = await postsRef.where('userID', '==', this.state.uid).get();
 
-    for(record of userRef.docs) {
-      console.log(record.id);
-      let newRef = await postsRef.doc(record.id).get();
-      console.log(newRef.data);
-    }
-  };
+  //   for(record of userRef.docs) {
+  //     console.log(record.id);
+  //     let newRef = await postsRef.doc(record.id).get();
+  //     console.log(newRef.data);
+  //   }
+  // };..
 
+  loadUserPostsFromFB = () => {
+    let collectionRef = db.collection('posts');
+    let query = collectionRef.where('userID', '==', this.state.uid);
+    // console.log('did you get here????   ');
 
+    query.get().then((querySnapshot) => {
+      querySnapshot.forEach((documentSnapshot) => {
+        // console.log(doc.id, '=>', doc.data());
+        let data = documentSnapshot.data();
+        console.log('this is the data     ', data);
 
-  // loadUserPostsFromFB = () => {
-  //   let collectionRef = db.collection('posts');
-  //   let query = collectionRef.where('userID', '==', this.state.uid);
-  //   // console.log('did you get here????   ');
-
-  //   query.select().get().then((querySnapshot) => {
-  //     querySnapshot.forEach((documentSnapshot) => {
-  //       // console.log(doc.id, '=>', doc.data());
-  //       let data = documentSnapshot.data();
-  //       console.log('this is the data     ', data);
-
-  //       this.setState({
-  //         posts: [
-  //           ...this.state.posts,
-  //           {
-  //             postContent: data.postContent,
-  //             time: data.time
-  //           }
-  //         ]
+        this.setState({
+          posts: [
+            ...this.state.posts,
+            {
+              postContent: data.postContent,
+              time: data.time
+            }
+          ]
             
-  //       });
-  //       console.log('*********** This is the STATE', this.state);
-  //       // console.log('****', doc.data.postContent);
-  //     });
-  //     // console.log(querySnapshot.docs);
-  //   });
-  // };
+        });
+        console.log('*********** This is the STATE', this.state);
+        // console.log('****', doc.data.postContent);
+      });
+      // console.log(querySnapshot.docs);
+    });
+  };
  
    
   
   render(){
     // const { notes, handleRemove, handleUpdate } = this.props;
-
+    const { postsSentFromParentHome } = this.props;
+    console.log('this is postsSentFromParentHome', postsSentFromParentHome);
 
     return (
       <Fragment>
         <h2>### Note-S component ###</h2>
-        <ul>{this.state.posts.map((post, index) => 
-          <li key={index}>{post.postContent}</li>)}
+        {/* <ul>{postsSentFromParentHome.map((post, index) => 
+          <li key={index}>{post}</li>)}
         </ul>
         <button onClick={this.loadUserPostsFromFB}>Press me to load</button>
-        
+         */}
       </Fragment>
    
     );

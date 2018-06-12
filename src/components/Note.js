@@ -8,11 +8,10 @@ export default class Note extends Component {
     super(props);
 
     this.state = {
-      editing: false,
-      note: '',
-      uid: '' 
+      uid: '',
+      postText: ''
     };
-    // this.addNote = this.addNote.bind(this);
+    // this.addNoteToFB = this.addNoteToFB.bind(this);
     // this.addNoteSetup = this.addNoteSetup.bind(this);
   }
 
@@ -23,37 +22,32 @@ export default class Note extends Component {
         this.setState({
           uid: uid.uid
         });
-        console.log('just USER uid', user.uid);
+        console.log('USER uid', user.uid);
       }
       else {
         console.log('NO USER from note');
       }
     });
   }
+  //in Note= in Review component in parkPlace, review loads current review on load
   
-  // <3 the whole confusion here was trying to access the docRef that was returned from using the add function. Instead I used the set function which allows you to set a custom id for the document, in this case setting it as the uid will let me access it in Note.
-  addNote2() {
-    db.collection('users').doc(this.state.uid).set({ 
-      notes: this.state.note
-    }, { merge: true });
-    
-    console.log('********** note added');
-  }
 
-  addNote() {
+  addNoteToFB() {
     db.collection('posts').add({
-      userID: this.state.uid,
-      postContent: this.state.note,
+      uid: this.state.uid,
+      postText: this.state.postText,
       time: new Date()
     })
       .then(function(docRef) {
-        console.log('Document written with ID: ', docRef.id);
+        console.log('Document written with ID: ', docRef.id, docRef);
       })
       .then(this.setState({
         userID: this.state.uid,
-        postContent: this.state.note,
+        postText: this.state.postText,
         time: new Date()
-      }))
+      }),
+      console.log('note added', this.state)
+      )
       .catch(function(error) {
         console.error('Error adding document: ', error);
       });
@@ -64,51 +58,33 @@ export default class Note extends Component {
 handleSubmit = (event) => {
   // console.log('LOG ---- button was clicked');
   event.preventDefault();
-  this.addNote();
-  this.setState({
-    note: ''
-  });
-  console.log('handlesubmit ran', this.state);
+  this.addNoteToFB();
+  // this.props.updatePostsFromNoteToHome(this.state);
+  //   .then(() => {
+  //     this.props.updatePostsFromNoteToHome(this.state.note);
+  //   })
+  //   .catch((error) => { console.log('Error at handleSubmit', error); });
+  // console.log('handlesubmit ran- this is state of note', this.state);
  
 };
 
-  // toggleUpdate = () => {
-  //   this.setState({
-  //     editing: !this.state.editing
-  //   });
-  // };
 
   handleChange = ({ target }) => {
     this.setState({ [target.name] : target.value });
   };
 
-  // handleSubmit = (index, note) => {
-  //   this.props.handleUpdate(index, note);
-  //   this.toggleUpdate();
-  // };
 
   render(){
-    // const { handleRemove, index } = this.props;
-    // console.log('the state bro', this.state);
+
 
     return (
       <div><h1>## This is the NOTE component ##</h1>
-        {/* <li key={index}> */}
-        {/* {editing 
-          ? <input name="note" value={note} onChange={this.handleChange}/> 
-          : note}  */}
 
         <form onSubmit={(event) => this.handleSubmit(event)}>
-          <input name="note" value={this.state.note} onChange={this.handleChange}/>
+          <input name="postText" value={this.state.postText} onChange={this.handleChange}/>
           <button type="submit">Submit</button>
         </form>
 
-        {/* <button onClick={()=> handleRemove(index)}>X</button>
-        <button onClick={this.toggleUpdate}>Update</button> */}
-
-        {/* { editing && 
-        <button onClick={()=> this.handleSubmit(index, note)}>Submit</button> } */}
-        {/* </li> */}
       </div>
     );
   }
