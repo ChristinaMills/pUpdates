@@ -79,6 +79,7 @@ class Home extends Component {
   // TODO: write function to update the state of home, send that as a prop through Notes, and then Note. This should "pass up the data"
 
   tellHome = (postData) => {
+    console.log('%%%% reached home function');
     this.setState({
       posts: [
         ...this.state.posts,
@@ -89,6 +90,7 @@ class Home extends Component {
         }
       ]
     });
+    console.log('%%%% reached END home function');
 
   }
 
@@ -115,7 +117,7 @@ class Home extends Component {
         {/* <Post updatePostsFromNoteToHome = {this.updatePostsFromNoteToHome}/> */}
         <Posts postsSentFromParentHome = {this.state}/>
         <PostForm tellHomeNewPost = {this.tellHome}/>
-        
+
         <button onClick={() => { this.loadUserPostsFromFB(); }}>LOAD USER posts</button>
         <button onClick={this.logout}>Log Out</button>
       </div>

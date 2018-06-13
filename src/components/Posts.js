@@ -87,7 +87,7 @@ export default class Posts extends Component {
   render(){
     // const { notes, handleRemove, handleUpdate } = this.props;
     const { postsSentFromParentHome } = this.props;
-    console.log('@@@@@@@@     this is postsSentFromParentHome', postsSentFromParentHome);
+    // console.log('@@@@@@@@     this is postsSentFromParentHome', postsSentFromParentHome);
 
     return (
       <Fragment>
