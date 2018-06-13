@@ -59,6 +59,8 @@ handleSubmit = (event) => {
   // console.log('LOG ---- button was clicked');
   event.preventDefault();
   this.addPostToFB();
+
+  this.props.tellHomeNewPost(this.state);
   //tellhomefucntion would take post data which sould be same as current state of post form, just send the state
   
   // this.props.updatePostsFromNoteToHome(this.state);
@@ -85,7 +87,7 @@ handleSubmit = (event) => {
 
         <form onSubmit={(event) => this.handleSubmit(event)}>
           <input name="postText" value={this.state.postText} onChange={this.handleChange}/>
-          <button onClick={() => this.props.tellHomeNewPost()}>Add post to list</button>
+          {/* <button onClick={() => this.props.tellHomeNewPost()}>Add post to list</button> */}
           <button type="submit">Submit</button>
         </form>
 

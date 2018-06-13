@@ -29,6 +29,8 @@ export default class Posts extends Component {
 
   }
 
+
+
   // componentDidMount(){
   //   this.loadUserPostsFromFB();
   //   console.log(this.state, '     00000000000');

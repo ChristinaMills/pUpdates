@@ -85,7 +85,7 @@ class Home extends Component {
         ...this.state.posts,
         {
           postText: postData.postText,
-          time: postData.time,
+          time: 'postData.time',
           uid: postData.uid
         }
       ]
