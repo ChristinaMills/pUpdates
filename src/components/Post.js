@@ -75,15 +75,16 @@ handleSubmit = (event) => {
 
 
   render(){
-
+    const text = this.props.postTextFromList;
+    console.log('*****', text);
 
     return (
-      <div><h1>## This is the NOTE component ##</h1>
-
-        <form onSubmit={(event) => this.handleSubmit(event)}>
+      <div><h1>## This is the Post component ##</h1>
+        <div>{text}</div>
+        {/* <form onSubmit={(event) => this.handleSubmit(event)}>
           <input name="postText" value={this.state.postText} onChange={this.handleChange}/>
           <button type="submit">Submit</button>
-        </form>
+        </form> */}
 
       </div>
     );

@@ -55,21 +55,12 @@ export default class PostForm extends Component {
   }
 
 
-handleSubmit = (event) => {
+handleSubmit = async(event) => {
   // console.log('LOG ---- button was clicked');
   event.preventDefault();
-  this.addPostToFB();
-
-  this.props.tellHomeNewPost(this.state);
-  //tellhomefucntion would take post data which sould be same as current state of post form, just send the state
-  
-  // this.props.updatePostsFromNoteToHome(this.state);
-  //   .then(() => {
-  //     this.props.updatePostsFromNoteToHome(this.state.note);
-  //   })
-  //   .catch((error) => { console.log('Error at handleSubmit', error); });
-  // console.log('handlesubmit ran- this is state of note', this.state);
- 
+  await this.props.tellHomeNewPost(this.state);
+  await this.addPostToFB();
+  await console.log(this.state);
 };
 
 

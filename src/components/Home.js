@@ -85,7 +85,7 @@ class Home extends Component {
         ...this.state.posts,
         {
           postText: postData.postText,
-          time: 'postData.time',
+          time: postData.time,
           uid: postData.uid
         }
       ]
@@ -107,7 +107,7 @@ class Home extends Component {
 
   render() {
     const theFullState = this.state;
-    // console.log('theFullState', theFullState);
+    console.log('theFullState', theFullState);
 
     return (
       <div className="col-md-6">

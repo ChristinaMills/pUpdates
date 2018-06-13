@@ -95,7 +95,7 @@ export default class Posts extends Component {
       <Fragment>
         <h2>### Post-S component ###</h2>
         <ul>{postsSentFromParentHome.posts.map((post, index) => 
-          <li key={index}>{post.postText}</li>)}
+          <Post key={index} postTextFromList={post.postText}/>)}
         </ul>
         <button onClick={this.loadUserPostsFromFB}>Press me to load</button>
         
