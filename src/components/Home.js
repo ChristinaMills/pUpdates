@@ -11,7 +11,8 @@ class Home extends Component {
 
     this.state = {
       uid: '',
-      posts: []
+      posts: [],
+      name: 'EveryoneIsBob'
     };
   }
 
@@ -22,10 +23,10 @@ class Home extends Component {
         this.setState({
           uid: user.uid
         });
-        console.log('user uid after SS in if', this.state.uid);
+        // console.log('user uid after SS in if', this.state.uid);
 
         this.loadUserPostsFromFB();
-
+        this.loadUserInfoFromFB();
       }
       else {
         console.log('NO USER');
@@ -33,7 +34,11 @@ class Home extends Component {
     });
   }
 
-
+  loadUserInfoFromFB = async() => {
+    let usersDocRef = await db.collection('users').doc(this.state.uid);
+    const test = await usersDocRef.get();
+    console.log('%%%%%%%%%   ', test);
+  };
 
 
   
@@ -56,8 +61,9 @@ class Home extends Component {
       .then(querySnapshot => {
         querySnapshot.forEach(doc => {
           let data = doc.data();
-          // console.log('######', doc.id);
-          // console.log('this is the data.postText     ', data.postText);
+          console.log('######', doc.id);
+          console.log('this is the data.postText     ', data.postText);
+          console.log('full data returned', data);
 
           this.setState({
             posts: [
@@ -107,14 +113,17 @@ class Home extends Component {
 
   render() {
     const theFullState = this.state;
-    console.log('theFullState', theFullState);
+    const postText1 = this.state.posts && this.state.posts.postText;
+
+    // console.log('^^^^^^^  post', this.state.posts[0].postText);
+    console.log('test   ', postText1);
+
+    console.log('state', theFullState);
 
     return (
       <div className="col-md-6">
         <h1>You are home</h1>
         {/* <User/> */}
-        {/* note form maybe? */}
-        {/* <Post updatePostsFromNoteToHome = {this.updatePostsFromNoteToHome}/> */}
         <Posts postsSentFromParentHome = {this.state}/>
         <PostForm tellHomeNewPost = {this.tellHome}/>
 

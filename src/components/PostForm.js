@@ -17,6 +17,8 @@ export default class PostForm extends Component {
 
 
   // TODO: should get sent this instead of fetching
+  //make function in Home to pass down
+  
   componentDidMount() {
     fire.auth().onAuthStateChanged(user => {
       if(user) {

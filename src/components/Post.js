@@ -76,11 +76,14 @@ handleSubmit = (event) => {
 
   render(){
     const text = this.props.postTextFromList;
-    console.log('*****', text);
+    const user = this.props.uidFromList;
 
     return (
       <div><h1>## This is the Post component ##</h1>
-        <div>{text}</div>
+        <div>
+          <h4>User:{user}</h4>
+          <a>{text}</a>
+        </div>
         {/* <form onSubmit={(event) => this.handleSubmit(event)}>
           <input name="postText" value={this.state.postText} onChange={this.handleChange}/>
           <button type="submit">Submit</button>
