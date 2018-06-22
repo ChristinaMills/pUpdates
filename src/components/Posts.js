@@ -33,14 +33,15 @@ export default class Posts extends Component {
   
   render(){
     const { stateSentFromParentHome } = this.props;
-    // console.log('@@@@@@@@     this is stateSentFromParentHome', stateSentFromParentHome);
+    console.log('@@@@@@@@     this is stateSentFromParentHome', this.props);
     console.log('state from parent home', stateSentFromParentHome);
     return (
       <Fragment>
         <h2>### Post-S component ###</h2>
         <ul>{stateSentFromParentHome.posts.map((post, index) => 
-          <Post key={index} postTextFromList={post.postText} uidFromList={this.state.uid}/>)}
+          <Post key={index} postTextFromList={post.postText} uidFromList={this.props.stateSentFromParentHome.currentUserUid} currentUserName={this.props.currentUserName}/>)}
         </ul>
+
         <button onClick={this.loadUserPostsFromFB}>Press me to load</button>
         
       </Fragment>

@@ -143,12 +143,15 @@ class Home extends Component {
 
   render() {
     const theFullState = this.state;
+    
 
     return (
       <div className="col-md-6">
         <h1>You are home</h1>
         { this.state.name ? <User stateSentFromParentHome={this.state}/> : null}
-        <Posts stateSentFromParentHome = {this.state}/>
+        { this.state.name ? <Posts stateSentFromParentHome = {this.state} currentUserUid={this.props.currentUserUid} currentUserName={this.state.name}/>
+          :
+          null }
         <PostForm tellHomeNewPost = {this.tellHome}/>
 
         {/* <User stateSentFromParentHome={this.state}/> */}

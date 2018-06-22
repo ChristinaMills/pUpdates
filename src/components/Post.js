@@ -76,7 +76,10 @@ handleSubmit = (event) => {
 
   render(){
     const text = this.props.postTextFromList;
-    const user = this.props.uidFromList;
+    // const user = this.props.uidFromList;
+    const user = this.props.currentUserName;
+
+    console.log('SATE FROM POST YO!', this.props);
 
     return (
       <div><h1>## This is the Post component ##</h1>
