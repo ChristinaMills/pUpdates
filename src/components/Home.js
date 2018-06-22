@@ -12,13 +12,14 @@ class Home extends Component {
     this.state = {
       uid: '',
       posts: [],
-      name: 'EveryoneIsBob'
+      name: ''
     };
   }
 
 
-  componentWillMount() {
+  componentDidMount() {
     fire.auth().onAuthStateChanged(user => {
+      console.log('THIS IS A USER   ', user);
       if(user) {
         this.setState({
           uid: user.uid
@@ -35,9 +36,21 @@ class Home extends Component {
   }
 
   loadUserInfoFromFB = async() => {
-    let usersDocRef = await db.collection('users').doc(this.state.uid);
-    const test = await usersDocRef.get();
-    console.log('%%%%%%%%%   ', test);
+
+    let userColRef = db.collection('users');
+    let userRef = userColRef.where('uid', '==', this.state.uid).get()
+      .then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          let data = doc.data();
+          this.setState({
+            name: data.name,
+            petName: data.petName
+          });
+        });
+      });
+    // let usersDocRef = await db.collection('users').doc(this.state.uid);
+    // const test = await usersDocRef.get();
+    // console.log('%%%%%%%%%   ', test);
   };
 
 
@@ -61,9 +74,9 @@ class Home extends Component {
       .then(querySnapshot => {
         querySnapshot.forEach(doc => {
           let data = doc.data();
-          console.log('######', doc.id);
-          console.log('this is the data.postText     ', data.postText);
-          console.log('full data returned', data);
+          // console.log('######', doc.id);
+          // console.log('this is the data.postText     ', data.postText);
+          // console.log('full data returned', data);
 
           this.setState({
             posts: [
@@ -85,7 +98,6 @@ class Home extends Component {
   // TODO: write function to update the state of home, send that as a prop through Notes, and then Note. This should "pass up the data"
 
   tellHome = (postData) => {
-    console.log('%%%% reached home function');
     this.setState({
       posts: [
         ...this.state.posts,
@@ -96,8 +108,6 @@ class Home extends Component {
         }
       ]
     });
-    console.log('%%%% reached END home function');
-
   }
 
   // updatePostsFromNoteToHome  = (addedNote) => {
@@ -113,12 +123,6 @@ class Home extends Component {
 
   render() {
     const theFullState = this.state;
-    const postText1 = this.state.posts && this.state.posts.postText;
-
-    // console.log('^^^^^^^  post', this.state.posts[0].postText);
-    console.log('test   ', postText1);
-
-    console.log('state', theFullState);
 
     return (
       <div className="col-md-6">

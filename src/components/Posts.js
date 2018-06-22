@@ -12,22 +12,21 @@ export default class Posts extends Component {
     };
   }
 
-  componentDidMount() {
-    fire.auth().onAuthStateChanged(function(user) {
-      if(user) {
-        this.setState({
-          uid: user.uid
-        });
-        // console.log('User logged in from notes', this.state.uid);
+  // componentDidMount() {
+  //   fire.auth().onAuthStateChanged(function(user) {
+  //     if(user) {
+  //       this.setState({
+  //         uid: user.uid
+  //       });
+  //       // console.log('User logged in from notes', this.state.uid);
 
-      }
-      else {
-        console.log('NO USER');
-      }
-    }.bind(this));
-    // console.log(this.state, 'state after component did mount ran');
+  //     }
+  //     else {
+  //       console.log('NO USER');
+  //     }
+  //   }.bind(this));
 
-  }
+  // }
 
   //TODO: fetch user object and put name, photo, group info in state
 
