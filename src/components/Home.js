@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import User from './User';
+import User from './User';
 // import Note from './Note';
 import PostForm from './PostForm';
 import Posts from './Posts';
@@ -17,28 +17,48 @@ class Home extends Component {
   }
 
 
-  componentDidMount() {
-    fire.auth().onAuthStateChanged(user => {
-      console.log('THIS IS A USER   ', user);
-      if(user) {
-        this.setState({
-          uid: user.uid
-        });
-        // console.log('user uid after SS in if', this.state.uid);
+  // componentDidMount() {
+  //   fire.auth().onAuthStateChanged(user => {
+  //     console.log('THIS IS A USER   ', user);
+  //     if(user) {
+  //       this.setState({
+  //         uid: user.uid
+  //       })
+  //         .then(() => {
+  //           this.loadUserInfoFromFB();
 
-        this.loadUserPostsFromFB();
-        this.loadUserInfoFromFB();
-      }
-      else {
-        console.log('NO USER');
-      }
+  //         })
+  //         .then(() => {
+  //           this.loadUserPostsFromFB();
+
+  //         });
+  //       console.log('user uid after SS in if', this.state.uid);
+
+  //     }
+  //     else {
+  //       console.log('NO USER');
+  //     }
+  //   });
+  // }
+
+  componentDidMount() {
+    this.setState({
+      uid: this.props.currentUserUid
     });
+    console.log(',.,.,.,.,.,.,', this.props.currentUserUid);
+
+    console.log(',.,.,.,.,.,., state', this.state);
+
+    this.loadUserInfoFromFB();
+    this.loadUserPostsFromFB();
+     
   }
 
-  loadUserInfoFromFB = async() => {
+
+  loadUserInfoFromFB = () => {
 
     let userColRef = db.collection('users');
-    let userRef = userColRef.where('uid', '==', this.state.uid).get()
+    let userRef = userColRef.where('uid', '==', this.props.currentUserUid).get()
       .then(querySnapshot => {
         querySnapshot.forEach(doc => {
           let data = doc.data();
@@ -70,11 +90,11 @@ class Home extends Component {
 
   loadUserPostsFromFB = () => {
     let postsRef = db.collection('posts');
-    let userDoc = postsRef.where('uid', '==', this.state.uid).get()
+    let userDoc = postsRef.where('uid', '==', this.props.currentUserUid).get()
       .then(querySnapshot => {
         querySnapshot.forEach(doc => {
           let data = doc.data();
-          // console.log('######', doc.id);
+          console.log('######', doc.id);
           // console.log('this is the data.postText     ', data.postText);
           // console.log('full data returned', data);
 
@@ -108,7 +128,7 @@ class Home extends Component {
         }
       ]
     });
-  }
+  };
 
   // updatePostsFromNoteToHome  = (addedNote) => {
   //   this.setState({
@@ -127,11 +147,12 @@ class Home extends Component {
     return (
       <div className="col-md-6">
         <h1>You are home</h1>
-        {/* <User/> */}
-        <Posts postsSentFromParentHome = {this.state}/>
+        { this.state.name ? <User stateSentFromParentHome={this.state}/> : null}
+        <Posts stateSentFromParentHome = {this.state}/>
         <PostForm tellHomeNewPost = {this.tellHome}/>
 
-        <button onClick={() => { this.loadUserPostsFromFB(); }}>LOAD USER posts</button>
+        {/* <User stateSentFromParentHome={this.state}/> */}
+
         <button onClick={this.logout}>Log Out</button>
       </div>
     );

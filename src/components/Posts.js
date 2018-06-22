@@ -32,13 +32,13 @@ export default class Posts extends Component {
 
   
   render(){
-    const { postsSentFromParentHome } = this.props;
-    // console.log('@@@@@@@@     this is postsSentFromParentHome', postsSentFromParentHome);
-    console.log('posts from parent home', postsSentFromParentHome);
+    const { stateSentFromParentHome } = this.props;
+    // console.log('@@@@@@@@     this is stateSentFromParentHome', stateSentFromParentHome);
+    console.log('state from parent home', stateSentFromParentHome);
     return (
       <Fragment>
         <h2>### Post-S component ###</h2>
-        <ul>{postsSentFromParentHome.posts.map((post, index) => 
+        <ul>{stateSentFromParentHome.posts.map((post, index) => 
           <Post key={index} postTextFromList={post.postText} uidFromList={this.state.uid}/>)}
         </ul>
         <button onClick={this.loadUserPostsFromFB}>Press me to load</button>

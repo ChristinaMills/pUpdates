@@ -25,6 +25,7 @@ export default class App extends Component {
     fire.auth().onAuthStateChanged((user) => {
       if(user) {
         this.setState({ user });
+        console.log('user from app', user);
       }
       else {
         this.setState({ user: null });
@@ -62,12 +63,11 @@ export default class App extends Component {
 
 
   render() {
-    const { user, update } = this.state;
 
    
     return (
       <div className="App">
-        { this.state.user ? <Home/> : <Login getUserInfo={this.getUserInfo}/> }
+        { this.state.user ? <Home currentUserUid={this.state.user.uid}/> : <Login/> }
 
         {/* <h1>APP.js </h1>
         <h2>NOTES COMPONENT BELOW</h2>
