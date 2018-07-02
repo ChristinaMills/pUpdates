@@ -39,8 +39,8 @@ export default class User extends Component {
   render() {
     const { name } = this.props.stateSentFromParentHome;
     const { petName } = this.props.stateSentFromParentHome;
-    console.log('props in FROM USER %%%%%%   ', this.props);
-    console.log('name!    ', name);
+    // console.log('props in FROM USER %%%%%%   ', this.props);
+    // console.log('name!    ', name);
     
 
 
@@ -50,7 +50,7 @@ export default class User extends Component {
         <p>Connect User Profile information</p>
         <figure className="user_info">
           <h3>Name: {name}</h3>
-          <h3>Group ID: {petName}</h3>
+          <h3>Pet Name Group: {petName}</h3>
         </figure>
         
       </div>

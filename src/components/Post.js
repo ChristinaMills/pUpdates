@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { db } from '../services/firebase';
 import fire from '../services/firebase';
+import './post.css';
 
 export default class Post extends Component {
 
@@ -22,7 +23,7 @@ export default class Post extends Component {
         this.setState({
           uid: uid.uid
         });
-        console.log('USER uid', user.uid);
+        // console.log('USER uid', user.uid);
       }
       else {
         console.log('NO USER from note');
@@ -78,19 +79,16 @@ handleSubmit = (event) => {
     const text = this.props.postTextFromList;
     // const user = this.props.uidFromList;
     const user = this.props.currentUserName;
+    
 
-    console.log('SATE FROM POST YO!', this.props);
+    // console.log('STATE FROM POST YO!', this.props);
 
     return (
-      <div><h1>## This is the Post component ##</h1>
-        <div>
-          <h4>User:{user}</h4>
-          <a>{text}</a>
+      <div>
+        <div className='post-container'>
+          <h4 className='user-name'>User:{user}</h4>
+          <a className='post-text'>{text}</a>
         </div>
-        {/* <form onSubmit={(event) => this.handleSubmit(event)}>
-          <input name="postText" value={this.state.postText} onChange={this.handleChange}/>
-          <button type="submit">Submit</button>
-        </form> */}
 
       </div>
     );

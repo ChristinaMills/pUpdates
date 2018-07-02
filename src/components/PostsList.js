@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import Post  from './Post';
 import fire, { db } from '../services/firebase';
 
-export default class Posts extends Component {
+export default class PostsList extends Component {
   
   constructor(props){
     super(props);
@@ -34,12 +34,14 @@ export default class Posts extends Component {
   render(){
     const { stateSentFromParentHome } = this.props;
     console.log('@@@@@@@@     this is stateSentFromParentHome', this.props);
-    console.log('state from parent home', stateSentFromParentHome);
+    // console.log('state from parent home', stateSentFromParentHome);
+    // console.log('time', );
+
     return (
       <Fragment>
         <h2>### Post-S component ###</h2>
         <ul>{stateSentFromParentHome.posts.map((post, index) => 
-          <Post key={index} postTextFromList={post.postText} uidFromList={this.props.stateSentFromParentHome.currentUserUid} currentUserName={this.props.currentUserName}/>)}
+          <Post key={index} postTextFromList={post.postText} time={post.time} uidFromList={this.props.stateSentFromParentHome.currentUserUid} currentUserName={this.props.currentUserName}/>)}
         </ul>
 
         <button onClick={this.loadUserPostsFromFB}>Press me to load</button>

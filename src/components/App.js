@@ -1,9 +1,8 @@
 // import firestore from 'firestore';
-import  Notes  from './Posts';
 import React, { Component } from 'react';
 import fire, { db } from '../services/firebase';
-import  User  from './User';
-import Auth from './Auth';
+// import  User  from './User';
+// import Auth from './Auth';
 import Login from './Login';
 import Home from './Home';
 
@@ -68,17 +67,6 @@ export default class App extends Component {
     return (
       <div className="App">
         { this.state.user ? <Home currentUserUid={this.state.user.uid}/> : <Login/> }
-
-        {/* <h1>APP.js </h1>
-        <h2>NOTES COMPONENT BELOW</h2>
-        <Notes notes={notes} handleRemove={this.handleRemove} handleUpdate={this.handleUpdate} user={user}/>
-        <form onSubmit={this.handleSubmit}>
-          <input name="update" value={update} onChange={this.handleChange}/>
-        </form> */}
-        {/* <div>
-          <h1>AUTH PART</h1>
-          <Auth/>
-        </div> */}
       </div>
       
     );
