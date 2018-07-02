@@ -37,7 +37,9 @@ export default class PostForm extends Component {
   
 
   addPostToFB() {
+
     db.collection('posts').add({
+      name: this.props.currentUserName,
       uid: this.state.uid,
       postText: this.state.postText,
       time: new Date()

@@ -10,9 +10,11 @@ class Home extends Component {
     super(props);
 
     this.state = {
-      uid: '',
+      name: '',
+      petName: '',
       posts: [],
-      name: ''
+      teamMemberArr: [],
+      uid: ''
     };
   }
 
@@ -20,12 +22,13 @@ class Home extends Component {
     this.setState({
       uid: this.props.currentUserUid
     });
+
+    
+    this.loadUserInfoFromFB();
+    this.loadUserPostsFromFB();
     // console.log(',.,.,.,.,.,.,', this.props.currentUserUid);
 
     // console.log(',.,.,.,.,.,., state', this.state);
-
-    this.loadUserInfoFromFB();
-    this.loadUserPostsFromFB();
      
   }
 
@@ -41,6 +44,7 @@ class Home extends Component {
             name: data.name,
             petName: data.petName
           });
+          this.getTeamMembers();
         });
       });
   };
@@ -78,14 +82,15 @@ class Home extends Component {
             ]
           
           });
-          this.getTeamMembers();
+
         });
       });
+
   };
 
   getTeamMembers = () => {
-    console.log('TEAM', this.state.petName);
-    let teamMemberArr = [];
+    // console.log('TEAM', this.state.petName);
+    let teamMembersArr = [];
     let usersRef = db.collection('users');
     let teamDocs = usersRef.where('petName', '==', this.state.petName).get()
       .then(querySnapshot => {
@@ -94,17 +99,20 @@ class Home extends Component {
           let memberUid = data.uid;
 
           //does this memberuid exist in this array? if not, push it in, otherwise die
-          !teamMemberArr[memberUid] ? teamMemberArr.push(memberUid) : console.log('its already in there man');
+          teamMembersArr[memberUid] ? console.log('its already in there man') : teamMembersArr.push(memberUid);
 
-          console.log('%%%%%%%%% dis da data!!!', data.uid);
-          console.log('arr or users', teamMemberArr);
+          // console.log('%%%%%%%%% dis da data!!!', data.uid);
+          // console.log('arr of users', teamMembersArr);
 
-          this.setState({
-            teamMemberArr
-          });
+        });
+      })
+      .then(() => {
+        this.setState({
+          teamMembersArr
         });
       });
   };
+
 
   loadTeamPostsFromFB = () => {
 
@@ -135,16 +143,16 @@ class Home extends Component {
 
   render() {
     const theFullState = this.state;
-    console.log('!!   the props from home', this.state);
+    // console.log('!!   the props from home', this.state);
 
     return (
       <div className="col-md-6">
         <h1>You are home</h1>
         { this.state.name ? <User stateSentFromParentHome={this.state}/> : null}
-        { this.state.name ? <PostsList stateSentFromParentHome = {this.state} currentUserUid={this.props.currentUserUid} currentUserName={this.state.name} />
+        { this.state.teamMembersArr ? <PostsList stateSentFromParentHome = {this.state} currentUserUid={this.props.currentUserUid} currentUserName={this.state.name} teamMembers={this.state.teamMembersArr}/>
           :
           null }
-        <PostForm tellHomeNewPost = {this.tellHome}/>
+        <PostForm tellHomeNewPost = {this.tellHome} currentUserName={this.state.name}/>
 
         <button onClick={this.logout}>Log Out</button>
       </div>
