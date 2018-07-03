@@ -17,69 +17,46 @@ export default class PostsList extends Component {
 
   componentDidMount() {
     // let { teamMemberArr } = this.props.stateSentFromParentHome;
-
+    this.getMemberPosts();
   }
-  // componentDidMount() {
-  //   fire.auth().onAuthStateChanged(function(user) {
-  //     if(user) {
-  //       this.setState({
-  //         uid: user.uid
-  //       });
-  //       // console.log('User logged in from notes', this.state.uid);
-
-  //     }
-  //     else {
-  //       console.log('NO USER');
-  //     }
-  //   }.bind(this));
-
-  // }
-
+  
   //TODO: fetch user object and put name, photo, group info in state
   // todo maybe?? Get all currentuser post from the state from home and push them into an array with all the other member posts and put it all into an array, and the maybe order by timestamp
   
-  combinePosts = () => {
-    let currentUserPosts = this.props.stateSentFromParentHome.posts;
-    let otherMemebersUids = this.props.stateSentFromParentHome.teamMemberArr;
-
-  }
-
   getMemberPosts = () => {
     let postsRef = db.collection('posts');
-    // console.log('@@@@@@@@     this is state', this.state);
+    let teamMembers = this.props.teamMembers;
 
-    let teamMembersArr = this.props.stateSentFromParentHome.teamMembersArr;
-    teamMembersArr.push(this.props.currentUserUid);
-
-    //arr of uids of all members
-    teamMembersArr.forEach(item => {
+    teamMembers.forEach(item => {
+    // for(let i = 0; i < teamMembers.length; i++) {
       let userPostsDoc = postsRef.where('uid', '==', item).get()
         .then(querySnapshot => {
           querySnapshot.forEach(doc => {
             let data = doc.data();
-            console.log('# post obj', data);
-
+            this.setState({
+              allPosts: [
+                ...this.state.allPosts, data 
+              ]
+            });
           });
         });
     });
+  };
 
-  }
 
+  
   render(){
-    const { stateSentFromParentHome } = this.props;
-    // console.log('@@@@@@@@     this is stateSentFromParentHome teamm member props', this.props.stateSentFromParentHome.teamMemberArr);
-    // console.log('state from parent home', stateSentFromParentHome);
-    // console.log('time', );
-    this.getMemberPosts();
+    // const { stateSentFromParentHome } = this.props;
 
     return (
       <Fragment>
         <h2>### Post-S component ###</h2>
-        <ul>{stateSentFromParentHome.posts.map((post, index) => 
-          <Post key={index} currentUserName={this.props.currentUserName} postTextFromList={post.postText} time={post.time} uidFromList={this.props.stateSentFromParentHome.currentUserUid}/>)}
+        <ul>{this.state.allPosts.map((post, index) => 
+          // <Post key={index} currentUserName={this.props.currentUserName} postTextFromList={post.postText} time={post.time} uidFromList={this.props.stateSentFromParentHome.currentUserUid}/>)}
+          <Post key={index} currentUserName={post.name} postTextFromList={post.postText} time={post.time} uidFromList={this.props.stateSentFromParentHome.currentUserUid}/>)}
         </ul>
 
-        <button onClick={this.loadUserPostsFromFB}>Press me to load</button>
+        <button onClick={this.getMemberPosts}>Press me to load</button>
         
       </Fragment>
    

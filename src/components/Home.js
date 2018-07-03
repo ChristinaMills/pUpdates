@@ -63,6 +63,7 @@ class Home extends Component {
 
   loadUserPostsFromFB = () => {
     let postsRef = db.collection('posts');
+    
     let userDoc = postsRef.where('uid', '==', this.props.currentUserUid).get()
       .then(querySnapshot => {
         querySnapshot.forEach(doc => {
@@ -102,7 +103,7 @@ class Home extends Component {
           teamMembersArr[memberUid] ? console.log('its already in there man') : teamMembersArr.push(memberUid);
 
           // console.log('%%%%%%%%% dis da data!!!', data.uid);
-          // console.log('arr of users', teamMembersArr);
+          console.log('arr of users', teamMembersArr);
 
         });
       })
